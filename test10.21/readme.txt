@@ -4,7 +4,7 @@
 1.将两个字符利用字符串对象的方法变成一个字符,显示在页面id为h1的元素中
 答:
 <body>
-    <div id="h1"></div>
+    <h1 id="h1"></h1>
     <script>
         var str=new String(123);
         var sstr=new String(456);
@@ -16,7 +16,7 @@
 2.一个富豪想存87万,给理财顾问写了87w,请自动生成存储870000的方法,显示在页面id为h2的元素中
 答:
 <body>
-    <div id="h2"></div>
+    <h2 id="h2"></h2>
     <script>
         var str="87";
         var h2=document.getElementById('h2').innerText=str.padEnd(6,'0');
