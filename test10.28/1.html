@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .tab {
+            width: 540px;
+            height: 400px;
+            position: relative;
+        }
+
+        .pic {
+            width: 540px;
+            height: 400px;
+        }
+        .pic img{
+        	width: 533px;
+        	height: 300px;
+        }
+        .pic>img {
+            display: none;
+        }
+
+        .num {
+            position: absolute;
+            left: 84px;
+            bottom: 50px;
+        }
+
+        .num a {
+            width: 50px;
+            height: 30px;
+            text-decoration: none;
+            text-align: center;
+            line-height: 30px;
+            font-size: 13px;
+            display: inline-block;
+            background-color: #222;
+            margin-left: 8px;
+        }
+        .num .active {
+            background-color: #bbb;
+            box-shadow: 0 0 5px #333;
+            transform: scale(1.1);
+            color: #222;
+            font-weight: 600;
+        }
+        #l{
+        	color: white;
+            font-size: 50px;
+            overflow: hidden;
+        	display: block;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 55px;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.6);
+        	float: left;
+        	position: absolute;
+        	bottom: 34px;
+        }
+        #r{
+        	color: white;
+            font-size: 50px;
+            overflow: hidden;
+        	display: block;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 55px;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.6);
+            position: absolute;
+        	bottom: 34px;
+        	right: 0px;
+        }
+        #six{
+        	overflow: hidden;
+        	margin-left:700px;
+            margin-top:-400px;
+        	position: relative;
+        }
+        #six img{
+            width:600px;
+            height:400px;
+            border: 1px solid black;
+        }
+    </style>
+	</head>
+	<body>
+		<div class="tab">
+        <div class="pic" id="pic">
+            <img src="1.jpg" alt="" style="display: block;">
+            <img src="2.jpg" alt="">
+            <img src="3.jpg" alt="">
+            <img src="4.jpg" alt="">
+            <img src="5.jpg" alt="">
+            <img src="6.jpg" alt="">
+        </div>
+        <div class="num" id="num">
+            <a href="#" class="active"><img src="1.jpg" alt="" style="width: 50px; height: 30px;"></a>
+            <a href="#"><img src="2.jpg" alt="" style="width: 50px; height: 30px;"></a>
+            <a href="#"><img src="3.jpg" alt="" style="width: 50px; height: 30px;"></a>
+            <a href="#"><img src="4.jpg" alt="" style="width: 50px; height: 30px;"></a>
+            <a href="#"><img src="5.jpg" alt="" style="width: 50px; height: 30px;"></a>
+            <a href="#"><img src="6.jpg" alt="" style="width: 50px; height: 30px;"></a>
+        </div>
+        <!--<div class="control">-->
+            <span id="l">&lt;</span>
+            <span id="r">&gt;</span>
+        <!--</div>-->
+    </div>
+    <div id="six">
+    	<img src="1.jpg" id="datu"/>
+    </div>
+    <script>
+        var num = document.getElementById('num');
+        var pics = document.getElementById('pic');
+        var 左 = document.getElementById('l');
+        var 右 = document.getElementById('r');
+        var as = num.getElementsByTagName('a'); //5
+        var picdiv = pics.getElementsByTagName('img'); //5
+        var imgs=pics.getElementsByTagName("img");
+        var datu=document.getElementById("datu");
+        
+        
+        //自动轮播
+        var timer = null;
+	    clearInterval(timer);
+        timer = setInterval(moveRight,2000);
+
+        //清除定时器
+        for(var o = 0;o<picdiv.length;o++){
+            picdiv[o].onmouseover = function(){
+                clearInterval(timer);
+            }
+            picdiv[o].onmouseout = function(){
+                clearInterval(timer);
+                timer = setInterval(moveRight,2000);
+            }
+        }
+	
+	for(var i=0;i<as.length;i++){
+		//为每个图片绑定移入事件
+		imgs[i].onmouseover=function(){
+			datu.src=this.src;
+//			clearInterval(timer);
+		}
+		//为每个图片绑定移除事件
+		imgs[i].onmouseout=function(){
+			datu.src=this.src;
+//			timer=setInterval(moveRight,1000);
+		}
+		
+	}
+        
+        
+        
+        
+        
+        
+        
+
+        var 数字 = 0;
+         右.onclick = moveRight;
+
+        //点击右
+        function moveRight() {
+             数字++; 
+            //判断是否在合理范围里
+            if(数字 == as.length){
+                 数字 = 0;
+            }
+            for (var j = 0; j < as.length; j++) {
+                as[j].className = '';
+                picdiv[j].style.display = 'none';
+            }
+            as[数字].className = 'active';
+            picdiv[数字].style.display = 'block';
+        }
+
+
+        //点击左
+        左.onclick = function () {
+             数字--;
+            if(数字 == -1){
+              数字 = picdiv.length-1;
+            }
+            for (var j = 0; j < as.length; j++) {
+                as[j].className = '';
+                picdiv[j].style.display = 'none';
+            }
+            as[数字].className = 'active';
+            picdiv[数字].style.display = 'block';
+        }
+      
+        for (var i = 0; i < as.length; i++) {
+            as[i].setAttribute('z', i); // z = i
+            as[i].onclick = function () {
+                for (var j = 0; j < as.length; j++) {
+                    as[j].className = '';
+                    picdiv[j].style.display = 'none';
+                }
+                this.className = 'active';
+                //div[z的值 当前的a=this.getAttribute('z')]
+                picdiv[this.getAttribute('z')].style.display = 'block';
+            }
+        }
+        
+        
+        
+
+        
+        
+
+    </script>
+	</body>
+</html>
